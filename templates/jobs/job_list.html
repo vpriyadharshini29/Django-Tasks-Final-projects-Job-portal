@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-3">Available Jobs</h2>
+
+<form method="get" class="row mb-4">
+  <div class="col-md-4">{{ search_form.keyword }}</div>
+  <div class="col-md-4">{{ search_form.location }}</div>
+  <div class="col-md-4"><button class="btn btn-primary w-100">Search</button></div>
+</form>
+
+{% for job in jobs %}
+<div class="card mb-3 shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">{{ job.title }}</h5>
+    <p class="card-text"><strong>{{ job.company }}</strong> | {{ job.location }}</p>
+    <p class="text-muted">{{ job.description|truncatechars:150 }}</p>
+    <a href="{% url 'job_detail' job.pk %}" class="btn btn-sm btn-primary">View</a>
+  </div>
+</div>
+{% empty %}
+<p>No jobs found.</p>
+{% endfor %}
+
+{% include "pagination.html" with page_obj=page_obj %}
+{% endblock %}
